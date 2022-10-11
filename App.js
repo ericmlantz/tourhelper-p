@@ -1,21 +1,68 @@
 //imported 3rd party libraries
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, TextInput } from 'react-native'
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 //imported from this repo
-import ComponentExamples from './app/screens/ComponentExamples'
-import Screen from './app/components/Screen'
+import HomeScreen from './app/screens/HomeScreen'
+import MapScreen from './app/screens/MapScreen'
+import AdminScreen from './app/screens/AdminScreen'
+import colors from './app/config/colors'
 
 //make this component available to display
+const Tab = createBottomTabNavigator()
+
 export default function App() {
   //render
   return (
-    <Screen style={styles.container}>
-      <ComponentExamples />
-      {/* ComponentExamples is found in ./app/screens/ComponentExamples.js */}
-      <StatusBar style="auto" />
-      {/* Sets the color of the status bar text. Default value is "auto" which picks the appropriate value according to the active color scheme, eg: if your app is dark mode, the style will be "light". */}
-    </Screen>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          tabBarActiveTintColor: colors.primary
+        }}
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="home" color={color} size={size} />
+            )
+          }}
+        />
+        <Tab.Screen
+          name="Map"
+          component={MapScreen}
+          options={{
+            tabBarLabel: 'Map',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="map-outline"
+                color={color}
+                size={size}
+              />
+            )
+          }}
+        />
+        <Tab.Screen
+          name="Admin"
+          component={AdminScreen}
+          options={{
+            tabBarLabel: 'Admin View',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="account-tie-hat"
+                color={color}
+                size={size}
+              />
+            )
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   )
 }
 
